@@ -1,0 +1,9 @@
+# para criar migration
+Add-Migration CriandoTabelaDeFilme
+
+# para efetuar a migration
+Update-Database
+
+# para remover a migration 
+# (tem q apaga as tabelas do banco e roda o comando abaixo)
+Remove-Migration

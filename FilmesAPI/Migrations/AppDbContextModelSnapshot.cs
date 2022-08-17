@@ -33,6 +33,28 @@ namespace FilmesAPI.Migrations
                     b.ToTable("Cinemas");
                 });
 
+            modelBuilder.Entity("FilmesAPI.Models.Endereco", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Bairro")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Logradouro")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Numero")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Enderecos");
+                });
+
             modelBuilder.Entity("FilmesAPI.Models.Filme", b =>
                 {
                     b.Property<int>("Id")
