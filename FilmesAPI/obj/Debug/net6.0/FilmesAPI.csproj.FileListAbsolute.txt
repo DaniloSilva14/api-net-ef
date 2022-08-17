@@ -25,3 +25,13 @@ C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\
 C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\obj\Debug\net6.0\FilmesAPI.pdb
 C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\obj\Debug\net6.0\FilmesAPI.genruntimeconfig.cache
 C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\obj\Debug\net6.0\ref\FilmesAPI.dll
+C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\bin\Debug\net6.0\Humanizer.dll
+C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\bin\Debug\net6.0\MySqlConnector.dll
+C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\AS informática\Documents\projetos\1 cursos-.net\1\FilmesAPI\FilmesAPI\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
