@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Adding connection DB
-builder.Services.AddDbContext<FilmeContext>(opts => 
+builder.Services.AddDbContext<AppDbContext>(opts => 
     opts.UseMySql(builder.Configuration.GetConnectionString("FilmeConnection"), new MySqlServerVersion(new Version(8, 0)))
 );
 
