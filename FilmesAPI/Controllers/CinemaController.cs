@@ -33,7 +33,7 @@ namespace FilmesAPI.Controllers
         [HttpGet]
         public IActionResult RecuperarCinemas()
         {
-            return Ok(_context.Cinemas);
+            return Ok(_context.Cinemas.ToList());
         }
 
         [HttpGet("{id}")]
