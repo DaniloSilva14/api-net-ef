@@ -11,6 +11,7 @@ namespace FilmesAPI.Data.Dtos.Cinema
         [Required(ErrorMessage = "O campo Nome é obrigatório")]
         public string Nome { get; set; }
         public Model.Endereco Endereco { get; set; }
+        public Model.Gerente Gerente { get; set; }
         public DateTime HoraDaConsulta { get; set; }
     }
 }
