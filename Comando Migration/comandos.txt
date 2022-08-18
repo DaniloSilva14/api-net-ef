@@ -1,5 +1,5 @@
 # para criar migration
-Add-Migration CriandoTabelaDeFilme
+Add-Migration CriandoTabelas
 
 # para efetuar a migration
 Update-Database
