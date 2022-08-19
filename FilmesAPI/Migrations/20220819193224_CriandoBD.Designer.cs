@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FilmesAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220818212753_Criando BD")]
+    [Migration("20220819193224_CriandoBD")]
     partial class CriandoBD
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
