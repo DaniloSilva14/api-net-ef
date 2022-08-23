@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using FilmesAPI.Data;
-using FilmesAPI.Data.Dtos.Gerente;
-using FilmesAPI.Models;
+﻿using FilmesAPI.Data.Dtos.Gerente;
+using FilmesAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilmesAPI.Controllers
@@ -10,43 +8,42 @@ namespace FilmesAPI.Controllers
     [Route("[controller]")]
     public class GerenteController : ControllerBase
     {
-        private AppDbContext _context;
-        private IMapper _mapper;
+        private IGerenteService _gerenteService;
 
-        public GerenteController(AppDbContext context, IMapper mapper)
+        public GerenteController(IGerenteService gerenteService)
         {
-            _context = context;
-            _mapper = mapper;
+            _gerenteService = gerenteService;
         }
 
         [HttpPost]
         public IActionResult AdicionarGerente(CreateGerenteDto gerenteDto)
         {
-            Gerente gerente = _mapper.Map<Gerente>(gerenteDto);
+            var result = _gerenteService.AdicionarGerente(gerenteDto);
 
-            _context.Gerentes.Add(gerente);
-            _context.SaveChanges();
-
-            return CreatedAtAction(nameof(RecuperarGerentePorId), new { Id = gerente.Id }, gerente);
+            return CreatedAtAction(nameof(RecuperarGerentePorId), new { Id = result.Id }, result);
         }
 
         [HttpGet]
         public IActionResult RecuperarGerentes()
         {
-            return Ok(_context.Gerentes.ToList());
+            var result = _gerenteService.RecuperarGerentes();
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+
+            return NotFound();
         }
 
         [HttpGet("{id}")]
         public IActionResult RecuperarGerentePorId(int id)
         {
-            Gerente? gerente = _context.Gerentes.FirstOrDefault(gerente => gerente.Id == id);
+            var result = _gerenteService.RecuperarGerentePorId(id);
 
-            if (gerente != null)
+            if (result != null)
             {
-                ReadGerenteDto gerenteDto = _mapper.Map<ReadGerenteDto>(gerente);
-                gerenteDto.HoraDaConsulta = DateTime.Now;
-
-                return Ok(gerenteDto);
+                return Ok(result);
             }
 
             return NotFound();
@@ -71,17 +68,14 @@ namespace FilmesAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeletarGerente(int id)
         {
-            Gerente? gerente = _context.Gerentes.FirstOrDefault(gerente => gerente.Id == id);
+            var result = _gerenteService.DeletarGerente(id);
 
-            if (gerente == null)
+            if (result)
             {
-                return NotFound();
+                return NoContent();
             }
 
-            _context.Remove(gerente);
-            _context.SaveChanges();
-
-            return NoContent();
+            return NotFound();
         }
     }
 }

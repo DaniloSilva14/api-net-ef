@@ -1,4 +1,6 @@
 using FilmesAPI.Data;
+using FilmesAPI.Services;
+using FilmesAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,12 @@ builder.Services.AddDbContext<AppDbContext>(opts =>
 
 // Adding automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// Adding services
+builder.Services.AddScoped<ICinemaService, CinemaService>();
+builder.Services.AddScoped<IEnderecoService, EnderecoService>();
+builder.Services.AddScoped<IFilmeService, FilmeService>();
+builder.Services.AddScoped<IGerenteService, GerenteService>();
 
 var app = builder.Build();
 
