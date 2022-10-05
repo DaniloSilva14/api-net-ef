@@ -25,6 +25,7 @@ builder.Services.AddScoped<ICinemaService, CinemaService>();
 builder.Services.AddScoped<IEnderecoService, EnderecoService>();
 builder.Services.AddScoped<IFilmeService, FilmeService>();
 builder.Services.AddScoped<IGerenteService, GerenteService>();
+builder.Services.AddScoped<ISessaoService, SessaoService>();
 
 var app = builder.Build();
 

@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: bd_api-ef
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'filme-db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'pass'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3308:3306'
+    expose:
+      - '3308'
+    volumes:
+      - db-api-ef:/var/lib/mysql
+    restart: always
+
+volumes:
+  db-api-ef:
+    driver: local
+  
