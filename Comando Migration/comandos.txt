@@ -1,3 +1,5 @@
+Try to run in -> Tools -> NuGet Package Manager -> Package Manager Console
+
 # para criar migration
 Add-Migration CriandoTabelas
 

@@ -1,17 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Model = FilmesAPI.Models;
+﻿using FilmesApi.Models;
+using FilmesAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
-namespace FilmesAPI.Data.Dtos.Cinema
+namespace FilmesAPI.Data.Dtos
 {
     public class ReadCinemaDto
     {
         [Key]
         [Required]
         public int Id { get; set; }
-        [Required(ErrorMessage = "O campo Nome é obrigatório")]
+        [Required(ErrorMessage = "O campo de nome é obrigatório")]
         public string Nome { get; set; }
-        public Model.Endereco Endereco { get; set; }
-        public Model.Gerente Gerente { get; set; }
-        public DateTime HoraDaConsulta { get; set; }
+        public Endereco Endereco { get; set; }
+        public Gerente Gerente { get; set; }
     }
 }

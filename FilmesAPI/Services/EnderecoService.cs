@@ -1,18 +1,19 @@
 ﻿using AutoMapper;
-using FilmesAPI.Data;
-using FilmesAPI.Data.Dtos.Endereco;
-using FilmesAPI.Models;
-using FilmesAPI.Services.Interfaces;
+using FilmesApi.Data;
+using FilmesApi.Models;
+using FilmesAPI.Data.Dtos;
+using FluentResults;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace FilmesAPI.Services
+namespace FilmesApi.Services
 {
-    public class EnderecoService : IEnderecoService
+    public class EnderecoService
     {
         private AppDbContext _context;
         private IMapper _mapper;
-
-        const bool SUCCESS = true;
-        const bool FAIL = false;
 
         public EnderecoService(AppDbContext context, IMapper mapper)
         {
@@ -20,64 +21,58 @@ namespace FilmesAPI.Services
             _mapper = mapper;
         }
 
-        public ReadEnderecoDto AdicionarEndereco(CreateEnderecoDto enderecoDto)
+        public ReadEnderecoDto AdicionaEndereco(CreateEnderecoDto enderecoDto)
         {
             Endereco endereco = _mapper.Map<Endereco>(enderecoDto);
-
             _context.Enderecos.Add(endereco);
             _context.SaveChanges();
-
             return _mapper.Map<ReadEnderecoDto>(endereco);
         }
 
-        public IEnumerable<Endereco> RecuperarEnderecos()
-        {          
-            return _context.Enderecos.ToList();
+        public List<ReadEnderecoDto> RecuperaEnderecos()
+        {
+            List<Endereco> enderecos = _context.Enderecos.ToList();
+            if (enderecos == null)
+            {
+                return null;
+            }
+            return _mapper.Map<List<ReadEnderecoDto>>(enderecos);
         }
 
-        public ReadEnderecoDto RecuperarEnderecoPorId(int id)
+        internal ReadEnderecoDto RecuperaEnderecosPorId(int id)
         {
-            Endereco? endereco = _context.Enderecos.FirstOrDefault(endereco => endereco.Id == id);
-
+            Endereco endereco = _context.Enderecos.FirstOrDefault(endereco => endereco.Id == id);
             if (endereco != null)
             {
                 ReadEnderecoDto enderecoDto = _mapper.Map<ReadEnderecoDto>(endereco);
-                enderecoDto.HoraDaConsulta = DateTime.Now;
 
                 return enderecoDto;
             }
-
             return null;
         }
 
-        public bool AtualizarEndereco(int id, UpdateEnderecoDto enderecoDto)
+        public Result AtualizaEndereco(int id, UpdateEnderecoDto enderecoDto)
         {
-            Endereco? endereco = _context.Enderecos.FirstOrDefault(endereco => endereco.Id == id);
-
+            Endereco endereco = _context.Enderecos.FirstOrDefault(endereco => endereco.Id == id);
             if (endereco == null)
             {
-                return FAIL;
+                return Result.Fail("Endereço não encontrado");
             }
-
             _mapper.Map(enderecoDto, endereco);
             _context.SaveChanges();
-
-            return SUCCESS;
+            return Result.Ok();
         }
 
-        public bool DeletarEndereco(int id)
+        internal Result DeletaEndereco(int id)
         {
-            Endereco? endereco = _context.Enderecos.FirstOrDefault(endereco => endereco.Id == id);
-
+            Endereco endereco = _context.Enderecos.FirstOrDefault(endereco => endereco.Id == id);
             if (endereco == null)
             {
-                return FAIL;
+                return Result.Fail("Endereco não encontrado");
             }
-
             _context.Remove(endereco);
             _context.SaveChanges();
-
-            return SUCCESS;
+            return Result.Ok();
         }
     }
 }

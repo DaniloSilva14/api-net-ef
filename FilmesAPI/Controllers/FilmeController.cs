@@ -1,6 +1,16 @@
-﻿using FilmesAPI.Data.Dtos.Filme;
-using FilmesAPI.Services.Interfaces;
+﻿
+using AutoMapper;
+using FilmesApi.Data;
+using FilmesApi.Services;
+using FilmesAPI.Data;
+using FilmesAPI.Data.Dtos;
+using FilmesAPI.Models;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FilmesAPI.Controllers
 {
@@ -8,71 +18,52 @@ namespace FilmesAPI.Controllers
     [Route("[controller]")]
     public class FilmeController : ControllerBase
     {
-        private IFilmeService _filmeService;
+        private FilmeService _filmeService;
 
-        public FilmeController(IFilmeService filmeService)
+        public FilmeController(FilmeService filmeService)
         {
             _filmeService = filmeService;
         }
 
         [HttpPost]
-        public IActionResult AdicionarFilme(CreateFilmeDto filmeDto)
+        public IActionResult AdicionaFilme([FromBody] CreateFilmeDto filmeDto)
         {
-            var result = _filmeService.AdicionarFilme(filmeDto);
-
-            return CreatedAtAction(nameof(RecuperarFilmesPorId), new { Id = result.Id }, result);
+            ReadFilmeDto readDto = _filmeService.AdicionaFilme(filmeDto);
+            return CreatedAtAction(nameof(RecuperaFilmesPorId), new { Id = readDto.Id }, readDto);
         }
 
         [HttpGet]
-        public IActionResult RecuperarFilmes([FromQuery] int classificacaoEtaria = 18)
+        public IActionResult RecuperaFilmes([FromQuery] int? classificacaoEtaria = null)
         {
-            var result = _filmeService.RecuperarFilmes(classificacaoEtaria);
-
-            if(result != null)
-            {
-                return Ok(result);
-            }
-
-            return NotFound();
+            List<ReadFilmeDto> readDto = _filmeService.RecuperaFilmes(classificacaoEtaria);
+            if (readDto == null) return NotFound();
+            return Ok(readDto);
         }
 
         [HttpGet("{id}")]
-        public IActionResult RecuperarFilmesPorId(int id)
+        public IActionResult RecuperaFilmesPorId(int id)
         {
-            var result = _filmeService.RecuperarFilmesPorId(id);
-
-            if (result != null)
-            {
-                return Ok(result);
-            }
-
-            return NotFound();
+            ReadFilmeDto readDto = _filmeService.RecuperaFilmesPorId(id);
+            if (readDto == null) return NotFound();
+            return Ok(readDto);
+            
         }
 
         [HttpPut("{id}")]
-        public IActionResult AtualizarFilme(int id, [FromBody] UpdateFilmeDto filmeDto)
+        public IActionResult AtualizaFilme(int id, [FromBody] UpdateFilmeDto filmeDto)
         {
-            var result = _filmeService.AtualizarFilme(id, filmeDto);
-
-            if(result)
-            {
-                return NoContent();
-            }
-
-            return NotFound();
+            Result resultado = _filmeService.AtualizaFilme(id, filmeDto);
+            if (resultado.IsFailed) return NotFound();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeletarFilme(int id)
+        public IActionResult DeletaFilme(int id)
         {
-            var result = _filmeService.DeletarFilme(id);
-
-            if (result)
-            {
-                return NoContent();
-            }
-
-            return NotFound();
+            Result resultado = _filmeService.DeletaFilme(id);
+            if (resultado.IsFailed) return NotFound();
+            return NoContent();
         }
+
     }
 }

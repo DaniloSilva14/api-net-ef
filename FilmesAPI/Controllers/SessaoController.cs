@@ -1,87 +1,40 @@
 ﻿using AutoMapper;
-using FilmesAPI.Data;
-using FilmesAPI.Data.Dtos.Sessao;
-using FilmesAPI.Models;
+using FilmesApi.Data;
+using FilmesApi.Data.Dtos.Sessao;
+using FilmesApi.Models;
+using FilmesApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace FilmesAPI.Controllers
+namespace FilmesApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class SessaoController : ControllerBase
     {
-        private AppDbContext _context;
-        private IMapper _mapper;
+        private SessaoService _sessaoService;
 
-        public SessaoController(AppDbContext context, IMapper mapper)
+        public SessaoController(SessaoService sessaoService)
         {
-            _context = context;
-            _mapper = mapper;
+            _sessaoService = sessaoService;
         }
 
         [HttpPost]
-        public IActionResult AdicionarSessao(CreateSessaoDto sessaoDto)
+        public IActionResult AdicionaSessao(CreateSessaoDto dto)
         {
-            Sessao sessao = _mapper.Map<Sessao>(sessaoDto);
-
-            _context.Sessoes.Add(sessao);
-            _context.SaveChanges();
-
-            return CreatedAtAction(nameof(RecuperarSessaoPorId), new { Id = sessao.Id }, sessao);
-        }
-
-        [HttpGet]
-        public IActionResult RecuperarSessoes()
-        {
-            return Ok(_context.Sessoes.ToList());
+            ReadSessaoDto readDto = _sessaoService.AdicionaSessao(dto);
+            return CreatedAtAction(nameof(RecuperaSessoesPorId), new { Id = readDto.Id }, readDto);
         }
 
         [HttpGet("{id}")]
-        public IActionResult RecuperarSessaoPorId(int id)
+        public IActionResult RecuperaSessoesPorId(int id)
         {
-            Sessao? sessao = _context.Sessoes.FirstOrDefault(sessao => sessao.Id == id);
-
-            if (sessao != null)
-            {
-                ReadSessaoDto sessaoDto = _mapper.Map<ReadSessaoDto>(sessao);
-                sessaoDto.HoraDaConsulta = DateTime.Now;
-
-                return Ok(sessaoDto);
-            }
-
-            return NotFound();
-        }
-
-        //[HttpPut("{id}")]
-        //public IActionResult AtualizarSessao(int id, [FromBody] UpdateSessaoDto sessaoDto)
-        //{
-        //    Sessao? sessao = _context.Sessoes.FirstOrDefault(sessao => sessao.Id == id);
-
-        //    if (sessao == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _mapper.Map(sessaoDto, sessao);
-        //    _context.SaveChanges();
-
-        //    return NoContent();
-        //}
-
-        [HttpDelete("{id}")]
-        public IActionResult DeletarSessao(int id)
-        {
-            Sessao? sessao = _context.Sessoes.FirstOrDefault(sessao => sessao.Id == id);
-
-            if (sessao == null)
-            {
-                return NotFound();
-            }
-
-            _context.Remove(sessao);
-            _context.SaveChanges();
-
-            return NoContent();
+            ReadSessaoDto readDto = _sessaoService.RecuperaSessoesPorId(id);
+            if (readDto == null) return NotFound();
+            return Ok(readDto);
         }
     }
 }
